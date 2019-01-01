@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: run-simple-app
+spec:
+  completions: 3
+  parallelism: 3
+  template:
+    metadata:
+      name: simple-app
+    spec:
+      containers:
+      - name: simple-app
+        image: localhost:5000/simple-app:0.1
+        command: [ "bash", "-c"]
+        args:
+         - java -jar simple-app.jar --participatingNodes 'unit1,unit2,unit3' --currentNode $MY_POD_IP --timer 800000
+        env:
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+      restartPolicy: Never
+  backoffLimit: 4

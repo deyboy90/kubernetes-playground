@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-containers
+spec:
+
+  volumes:
+  - name: shared-data
+    emptyDir: {}
+
+  containers:
+
+  - name: first
+    image: nginx
+    volumeMounts:
+    - name: shared-data
+      mountPath: /usr/share/nginx/html
+    resources:
+      limits:
+        memory: "1Gi"
+      requests:
+        memory: "1Gi"
+
+  - name: second
+    image: debian
+    volumeMounts:
+    - name: shared-data
+      mountPath: /pod-data
+    resources:
+      limits:
+        memory: "1Gi"
+      requests:
+        memory: "1Gi"
+    command: ["/bin/sh"]
+    args:
+      - "-c"
+      - >
+        while true; do
+          date >> /pod-data/index.html;
+
+          echo Hello from the second container >> /pod-data/index.html;
+          sleep 1;
+        done

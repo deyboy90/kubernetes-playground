@@ -1,0 +1,34 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  labels:
+    app: webapp
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080        # Port is how the application will be accessed from the outside.
+    targetPort: 80    # TargetPort is the Port which the application is configured to listen on. 
+  selector:
+    app: webapp
+---
+
+# Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+          app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: httpd
+        ports:
+        - containerPort: 80
+---

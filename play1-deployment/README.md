@@ -1,6 +1,9 @@
 ## Creating a deployment
+
+Deployment is the simplest kubernetes controller object which specifies a container.
+
 ```
-kubectl create -f deployment.yaml
+kubectl apply -f deployment.yaml
 kubectl get deployment
 kubectl get pods
 kubectl describe deployment webapp
@@ -10,7 +13,7 @@ kubectl describe deployment webapp
 
 ## Creating a service to expose the deployment
 ```
-kubectl create -f service.yaml
+kubectl apply -f service.yaml
 kubectl get deployment
 kubectl get pods
 kubectl describe service webapp-service

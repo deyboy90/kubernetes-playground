@@ -1,0 +1,3 @@
+### Reference links
+
+https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/

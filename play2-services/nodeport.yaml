@@ -1,0 +1,35 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  labels:
+    app: webapp
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30000  # NodePort exposes the service on each Node’s IP via the defined static port. 
+
+  selector:
+    app: webapp
+---
+
+# Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+          app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: httpd
+        ports:
+        - containerPort: 80
+---
